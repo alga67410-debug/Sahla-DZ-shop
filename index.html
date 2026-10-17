@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- lang="ar" و dir="rtl": يجعلان الصفحة عربية وتبدأ من اليمين -->
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <!-- هذا السطر ضروري ليظهر الموقع بحجم مناسب على الهاتف -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>متجر الأمل – مواد غذائية بالجملة والتجزئة</title>
+
+  <style>
+    /* ===== 1) الألوان والخط: غيّر القيم هنا فتتغير الصفحة كلها ===== */
+    :root {
+      --green: #14532d;   /* اللون الرئيسي */
+      --sand: #f6f1e7;    /* لون الخلفية */
+      --ink: #1c1c1c;     /* لون النص */
+      --gold: #b8862b;    /* لون الخطوط والتفاصيل */
+      --wa: #1faa59;      /* أخضر واتساب */
+    }
+
+    /* ===== 2) إعدادات عامة ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      line-height: 1.8;
+      font-size: 18px;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+
+    /* ===== 3) القسم العلوي ===== */
+    header {
+      background: var(--green);
+      color: #fff;
+      padding: 56px 0 44px;
+    }
+    header h1 { font-size: 2.3rem; line-height: 1.3; margin-bottom: 12px; }
+    header p { font-size: 1.1rem; opacity: .9; margin-bottom: 28px; }
+
+    /* ===== 4) زر واتساب ===== */
+    .wa-btn {
+      display: block;
+      text-align: center;
+      background: var(--wa);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+      padding: 14px 20px;
+      border-radius: 12px;
+    }
+    .wa-btn:active { transform: scale(.98); } /* حركة صغيرة عند اللمس */
+
+    /* ===== 5) الأقسام ===== */
+    section { padding: 40px 0; }
+    h2 {
+      font-size: 1.5rem;
+      color: var(--green);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    /* قائمة الخدمات: كل خدمة يفصلها خط رفيع */
+    .services { list-style: none; }
+    .services li { padding: 12px 0; border-bottom: 1px solid #ddd3bd; }
+    .services strong { display: block; color: var(--green); }
+    .services span { font-size: .95rem; color: #555; }
+
+    /* معلومات التواصل */
+    .info { list-style: none; margin-bottom: 24px; }
+    .info li { padding: 6px 0; }
+    .info b { color: var(--green); }
+
+    footer { text-align: center; font-size: .9rem; color: #666; padding: 24px 0 40px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== القسم العلوي: اسم النشاط ===== -->
+  <header>
+    <div class="wrap">
+      <h1>متجر الأمل</h1>
+      <p>مواد غذائية ومنظفات بالجملة والتجزئة، في خدمتكم بالجزائر العاصمة.</p>
+      <a class="wa-btn" href="#">تواصل معنا عبر واتساب</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ===== الخدمات: انسخ <li> كاملاً لإضافة خدمة جديدة ===== -->
+    <section>
+      <h2>خدماتنا</h2>
+      <ul class="services">
+        <li><strong>البيع بالجملة</strong><span>أسعار خاصة للمحلات والمطاعم.</span></li>
+        <li><strong>البيع بالتجزئة</strong><span>كل حاجيات البيت في مكان واحد.</span></li>
+        <li><strong>التوصيل إلى المنزل</strong><span>داخل المدينة، من السبت إلى الخميس.</span></li>
+        <li><strong>الطلبات الخاصة</strong><span>اطلب المنتج الذي لا تجده وسنوفره لك.</span></li>
+      </ul>
+    </section>
+
+    <!-- ===== معلومات التواصل ===== -->
+    <section>
+      <h2>تواصل معنا</h2>
+      <ul class="info">
+        <li><b>العنوان:</b> شارع الاستقلال، الجزائر العاصمة</li>
+        <li><b>الهاتف:</b> <span id="phone-text">0550 12 34 56</span></li>
+        <li><b>أوقات العمل:</b> من 8:00 صباحًا إلى 8:00 مساءً</li>
+      </ul>
+      <a class="wa-btn" href="#">اطلب الآن عبر واتساب</a>
+    </section>
+
+  </main>
+
+  <footer>© <span id="year"></span> متجر الأمل. جميع الحقوق محفوظة.</footer>
+
+  <script>
+    /* ===== إعداداتك: عدّل هنا فقط ===== */
+    // الرقم بصيغة دولية، بدون + وبدون صفر البداية.
+    // مثال: 0550123456  تصبح  213550123456
+    const PHONE = "213550123456";
+    const MESSAGE = "السلام عليكم، أريد الاستفسار عن خدماتكم.";
+
+    /* ===== بناء رابط واتساب ووضعه في كل الأزرار ===== */
+    // encodeURIComponent تحوّل النص العربي إلى صيغة تقبلها الروابط
+    const link = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(MESSAGE);
+    document.querySelectorAll(".wa-btn").forEach(function (btn) {
+      btn.href = link;
+    });
+
+    /* السنة الحالية في أسفل الصفحة */
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
