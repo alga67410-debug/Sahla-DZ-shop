@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- lang="ar" و dir="rtl": يجعلان الصفحة عربية وتبدأ من اليمين -->
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <!-- هذا السطر ضروري ليظهر الموقع بحجم مناسب على الهاتف -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>لمسة جمال – مستلزمات التجميل والعناية</title>
+
+  <style>
+    /* ===== 1) الألوان والخط: غيّر القيم هنا فتتغير الصفحة كلها ===== */
+    :root {
+      --green: #14532d;   /* اللون الرئيسي */
+      --sand: #f6f1e7;    /* لون الخلفية */
+      --ink: #1c1c1c;     /* لون النص */
+      --gold: #b8862b;    /* لون الخطوط والتفاصيل */
+      --wa: #1faa59;      /* أخضر واتساب */
+    }
+
+    /* ===== 2) إعدادات عامة ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      line-height: 1.8;
+      font-size: 18px;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+
+    /* ===== 3) القسم العلوي ===== */
+    header {
+      background: var(--green);
+      color: #fff;
+      padding: 56px 0 44px;
+    }
+    header h1 { font-size: 2.3rem; line-height: 1.3; margin-bottom: 12px; }
+    header p { font-size: 1.1rem; opacity: .9; margin-bottom: 28px; }
+
+    /* ===== 4) زر واتساب ===== */
+    .wa-btn {
+      display: block;
+      text-align: center;
+      background: var(--wa);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+      padding: 14px 20px;
+      border-radius: 12px;
+    }
+    .wa-btn:active { transform: scale(.98); } /* حركة صغيرة عند اللمس */
+
+    /* ===== 5) الأقسام ===== */
+    section { padding: 40px 0; }
+    h2 {
+      font-size: 1.5rem;
+      color: var(--green);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    /* قائمة الخدمات: كل خدمة يفصلها خط رفيع */
+    .services { list-style: none; }
+    .services li { padding: 12px 0; border-bottom: 1px solid #ddd3bd; }
+    .services strong { display: block; color: var(--green); }
+    .services span { font-size: .95rem; color: #555; }
+
+    /* معلومات التواصل */
+    .info { list-style: none; margin-bottom: 24px; }
+    .info li { padding: 6px 0; }
+    .info b { color: var(--green); }
+
+    footer { text-align: center; font-size: .9rem; color: #666; padding: 24px 0 40px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== القسم العلوي: اسم النشاط ===== -->
+  <header>
+    <div class="wrap">
+      <h1>لمسة جمال</h1>
+      <p>كلش للجمال في بلاصة وحدة: مكياج، عطور، وعناية بالبشرة والشعر. جيبلك اللي تحبو بأحسن سعر.</p>
+      <a class="wa-btn" href="#">تواصل معانا على واتساب</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ===== الخدمات: انسخ <li> كاملاً لإضافة خدمة جديدة ===== -->
+    <section>
+      <h2>واش عندنا</h2>
+      <ul class="services">
+        <li><strong>المكياج</strong><span>كل ما تحتاجينه لإطلالة تبهر.</span></li>
+        <li><strong>العطور</strong><span>عطور رجالية ونسائية بأسعار في المتناول.</span></li>
+        <li><strong>العناية بالبشرة والشعر</strong><span>كريمات وشامبوهات تناسب نوع بشرتك.</span></li>
+        <li><strong>التوصيل</strong><span>نوصلوه لباب الدار، والدفع عند الاستلام.</span></li>
+        <li><strong>الطلبات الخاصة</strong><span>ما لقيتيش المنتوج؟ قولنا ونجيبوهولك.</span></li>
+      </ul>
+    </section>
+
+    <!-- ===== معلومات التواصل ===== -->
+    <section>
+      <h2>تواصل معانا</h2>
+      <ul class="info">
+        <li><b>العنوان:</b> اكتب هنا مدينتك أو ولايتك</li>
+        <li><b>الهاتف:</b> <span id="phone-text">0550 12 34 56</span></li>
+        <li><b>أوقات العمل:</b> من 9 صباحا حتى 8 مساء، كل يوم ماعدا الجمعة</li>
+      </ul>
+      <a class="wa-btn" href="#">سقسينا على أي منتوج</a>
+    </section>
+
+  </main>
+
+  <footer>© <span id="year"></span> لمسة جمال. جميع الحقوق محفوظة.</footer>
+
+  <script>
+    /* ===== إعداداتك: عدّل هنا فقط ===== */
+    // الرقم بصيغة دولية، بدون + وبدون صفر البداية.
+    // مثال: 0550123456  تصبح  213550123456
+    const PHONE = "213550123456";
+    const MESSAGE = "السلام عليكم، حبيت نسقسي على المنتوجات لي عندكم.";
+
+    /* ===== بناء رابط واتساب ووضعه في كل الأزرار ===== */
+    // encodeURIComponent تحوّل النص العربي إلى صيغة تقبلها الروابط
+    const link = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(MESSAGE);
+    document.querySelectorAll(".wa-btn").forEach(function (btn) {
+      btn.href = link;
+    });
+
+    /* السنة الحالية في أسفل الصفحة */
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
