@@ -8,6 +8,7 @@
   <!-- أيقونة التبويب (إيموجي صغير) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💄</text></svg>">
 
+  <noscript><style>body.loading > header, body.loading > main { visibility: visible !important; }</style></noscript>
   <style>
     /* ===== 1) الألوان: غيّر القيم هنا فتتغير الصفحة كلها ===== */
     :root {
@@ -140,7 +141,8 @@
     #gear { position: fixed; top: 10px; left: 10px; z-index: 15; background: var(--gold); color: #fff; border: 0; border-radius: 10px; padding: 8px 12px; font: inherit; font-size: .9rem; }
 
     /* ===== بوابة الإعدادات ===== */
-    body.loading > header, body.loading > main { visibility: hidden; }
+    body.loading > header, body.loading > main { visibility: hidden; animation: show 0s 3s forwards; }
+    @keyframes show { to { visibility: visible; } }
     .setl { display: inline-block; margin-top: 8px; color: #999; font-size: .8rem; text-decoration: none; }
     .adm details { margin: 12px 0; }
     .adm summary { color: var(--green); font-weight: 700; padding: 6px 0; }
@@ -323,7 +325,7 @@
     /* دالة التصفية: تأخذ القائمة والتصنيف وكلمة البحث وترجع المنتوجات المطابقة */
     function filterProducts(list, cat, term) {
       return list.filter(function (p) {
-        return (cat === "الكل" || p.cat === cat) && p.name.includes(term);
+        return (cat === "الكل" || p.cat === cat) && normAr(p.name).includes(normAr(term));
       });
     }
 
@@ -351,7 +353,7 @@
     /* أزرار التصنيف (تُبنى من تصنيفات المنتوجات الموجودة) */
     function buildChips() {
       const chipsBox = document.getElementById("chips");
-      const cats = ["الكل"].concat(Array.from(new Set(PRODUCTS.map(function (p) { return p.cat; }))));
+      const cats = Array.from(new Set(["الكل"].concat(PRODUCTS.map(function (p) { return p.cat; }))));
       if (cats.indexOf(currentCat) === -1) currentCat = "الكل";
       chipsBox.innerHTML = "";
       cats.forEach(function (c) {
@@ -428,6 +430,28 @@
       const m = /^(.+)\.github\.io$/i.exec(host);
       return m ? { owner: m[1], repo: path.split("/")[1] || "" } : { owner: "", repo: "" };
     }
+    function normAr(s) {                    // يوحّد الحروف حتى ينجح البحث (احمر = أحمر، مكياج = مكياج)
+      return String(s).toLowerCase()
+        .replace(/[\u064B-\u0652\u0640]/g, "")
+        .replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه");
+    }
+    function normalizeStore(d) {            // يضمن أن بيانات المتجر سليمة حتى لو كان الملف ناقصًا أو فيه خطأ
+      const src = (d && typeof d === "object") ? d : {};
+      const str = function (v) { return (typeof v === "string") ? v : ""; };
+      const ICON_KEYS = ["lipstick", "perfume", "cream", "hair", "nail", "brush"];
+      return {
+        name: str(src.name) || "المتجر", subtitle: str(src.subtitle), tagline: str(src.tagline), phone: str(src.phone),
+        waMessage: str(src.waMessage) || "السلام عليكم", address: str(src.address), hours: str(src.hours),
+        deliveryFee: (typeof src.deliveryFee === "number" && src.deliveryFee >= 0) ? Math.round(src.deliveryFee) : null,
+        services: (Array.isArray(src.services) ? src.services : []).filter(function (x) { return x && typeof x.title === "string" && x.title.trim(); })
+          .map(function (x) { return { title: x.title, text: str(x.text) }; }),
+        products: (Array.isArray(src.products) ? src.products : []).filter(function (x) { return x && typeof x.name === "string" && x.name.trim(); })
+          .map(function (x) {
+            return { name: x.name, cat: str(x.cat) || "أخرى", price: Math.max(0, Math.round(Number(x.price)) || 0),
+                     icon: ICON_KEYS.indexOf(x.icon) !== -1 ? x.icon : "cream" };
+          })
+      };
+    }
     function clampQty(q) { return Math.max(0, Math.min(20, q)); }
     function esc(s) {                       // يمنع إدخال أكواد HTML من نصوص الزبون
       return String(s).replace(/[&<>"']/g, function (c) {
@@ -446,6 +470,7 @@
 
     /* السلة: { رقم_المنتوج: الكمية } */
     let cart = load("dz_cart", {});
+    if (!cart || typeof cart !== "object" || Array.isArray(cart)) cart = {};
     function sanitizeCart() {                          // تنظيف أي منتوج لم يعد موجودًا
       Object.keys(cart).forEach(function (k) {
         if (!PRODUCTS[k] || !(cart[k] >= 1)) delete cart[k];
@@ -508,8 +533,8 @@
       });
       document.getElementById("sheet").scrollTop = 0;
     }
-    function openSheet() { renderCart(); showView("viewCart"); document.getElementById("sheet").classList.add("open"); }
-    function closeSheet() { document.getElementById("sheet").classList.remove("open"); }
+    function openSheet() { renderCart(); showView("viewCart"); document.getElementById("sheet").classList.add("open"); document.body.style.overflow = "hidden"; }
+    function closeSheet() { document.getElementById("sheet").classList.remove("open"); document.body.style.overflow = ""; }
 
     /* ---------- التحقق من نموذج الطلب ---------- */
     function readForm() {
@@ -543,7 +568,8 @@
         subtotal: t.subtotal, fee: DELIVERY_FEE,
         customer: { name: c.name, phone: c.phone, wilaya: c.wilaya, addr: c.addr, note: c.note }
       };
-      const orders = load("dz_orders", []);
+      let orders = load("dz_orders", []);
+      if (!Array.isArray(orders)) orders = [];
       orders.push(order);
       save("dz_orders", orders);
       cart = {}; save("dz_cart", cart); renderCartBar();
@@ -624,23 +650,32 @@
     function ghUrl(cfg) {
       return "https://api.github.com/repos/" + encodeURIComponent(cfg.owner) + "/" + encodeURIComponent(cfg.repo) + "/contents/store.json";
     }
-    function ghGet(cfg) {
-      return fetch(ghUrl(cfg), { headers: ghHeaders(cfg), cache: "no-store" }).then(function (r) {
+    function ghRepo(cfg) {                      // يتحقق من المفتاح والمستودع ويعرف الفرع الافتراضي
+      const url = "https://api.github.com/repos/" + encodeURIComponent(cfg.owner) + "/" + encodeURIComponent(cfg.repo);
+      return fetch(url, { headers: ghHeaders(cfg), cache: "no-store" }).then(function (r) {
         if (!r.ok) throw { status: r.status };
         return r.json();
       });
     }
     function publish(cfg, data) {
-      return ghGet(cfg).then(function (cur) {
-        const body = { message: "تحديث بيانات المتجر من بوابة الإعدادات", content: toBase64(JSON.stringify(data, null, 2) + "\n"), sha: cur.sha };
-        return fetch(ghUrl(cfg), { method: "PUT", headers: ghHeaders(cfg, true), body: JSON.stringify(body) });
+      return ghRepo(cfg).then(function (repo) {
+        const branch = repo.default_branch || "main";
+        return fetch(ghUrl(cfg) + "?ref=" + encodeURIComponent(branch), { headers: ghHeaders(cfg), cache: "no-store" }).then(function (r) {
+          if (r.status === 404) return {};                  // الملف غير موجود بعد: سيُنشأ الآن تلقائيًا
+          if (!r.ok) throw { status: r.status };
+          return r.json();
+        }).then(function (cur) {
+          const body = { message: "تحديث بيانات المتجر من بوابة الإعدادات", content: toBase64(JSON.stringify(data, null, 2) + "\n"), branch: branch };
+          if (cur.sha) body.sha = cur.sha;
+          return fetch(ghUrl(cfg), { method: "PUT", headers: ghHeaders(cfg, true), body: JSON.stringify(body) });
+        });
       }).then(function (r) { if (!r.ok) throw { status: r.status }; });
     }
     function errText(e) {
       const st = e && e.status;
       if (st === 401) return "المفتاح غير صالح أو انتهت صلاحيته. أنشئ مفتاحًا جديدًا.";
       if (st === 403) return "المفتاح لا يملك صلاحية الكتابة. عند إنشائه اختر Contents ثم Read and write.";
-      if (st === 404) return "لم أجد المستودع أو ملف store.json. تأكد من اسم المستخدم واسم المستودع ومن رفع ملف store.json.";
+      if (st === 404) return "لم أجد المستودع. تأكد من اسم المستخدم واسم المستودع، ومن أن المفتاح يشمل هذا المستودع.";
       if (st === 409 || st === 422) return "حدث تعارض أثناء الحفظ. اضغط حفظ ونشر مرة أخرى.";
       return "تعذر الاتصال. تأكد من الإنترنت وأعد المحاولة.";
     }
@@ -759,7 +794,7 @@
         const cfg = { token: panel.querySelector("#gTok").value.trim(), owner: panel.querySelector("#gOwner").value.trim(), repo: panel.querySelector("#gRepo").value.trim() };
         if (!cfg.token || !cfg.owner || !cfg.repo) { msg("اكتب المفتاح، واسم المستخدم واسم المستودع (في الإعدادات المتقدمة).", false); return; }
         b.disabled = true; b.textContent = "جاري التحقق...";
-        ghGet(cfg).then(function () { save(GH_KEY, cfg); renderEditor(); })
+        ghRepo(cfg).then(function () { save(GH_KEY, cfg); renderEditor(); })
           .catch(function (err) { msg(esc(errText(err)), false); b.disabled = false; b.textContent = "دخول"; });
         return;
       }
@@ -795,9 +830,10 @@
       setTimeout(function () { document.body.classList.remove("loading"); }, 4000);   // احتياط عند بطء الشبكة
       fetch("store.json", { cache: "no-cache" })
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-        .then(function (d) { if (!d || !Array.isArray(d.products)) throw 0; done(d); })
-        .catch(function () { done(DEFAULT_STORE); });
+        .then(function (d) { if (!d || !Array.isArray(d.products)) throw 0; done(normalizeStore(d)); })
+        .catch(function () { done(normalizeStore(DEFAULT_STORE)); });
     }
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeSheet(); closeSettings(); } });
     startStore();
 
     document.getElementById("year").textContent = new Date().getFullYear();
