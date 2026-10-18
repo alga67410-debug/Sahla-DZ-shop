@@ -86,10 +86,68 @@
     .info b { color: var(--green); }
 
     footer { text-align: center; font-size: .9rem; color: #666; padding: 24px 0 40px; }
+
+    /* ===== بحث وتصنيف المنتوجات ===== */
+    .demo-note { font-size: .85rem; background: #fff3cd; border: 1px solid #e6cf83; padding: 8px 10px; border-radius: 8px; margin-bottom: 14px; }
+    .search { width: 100%; padding: 12px 14px; font: inherit; border: 1px solid #ddd3bd; border-radius: 10px; background: var(--tile); margin-bottom: 12px; }
+    .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 14px; }
+    .chip { flex: 0 0 auto; font: inherit; font-size: .95rem; padding: 6px 14px; border: 1px solid var(--gold); border-radius: 999px; background: transparent; color: var(--green); }
+    .chip.on { background: var(--green); color: #fff; border-color: var(--green); }
+    .price { display: block; font-weight: 700; color: var(--gold); margin-top: 2px; }
+    .empty { grid-column: 1 / -1; text-align: center; color: #666; padding: 20px 0; }
+
+    /* ===== السلة والطلب ===== */
+    footer { padding-bottom: 100px; }
+    .product .add { margin-top: 8px; width: 100%; font: inherit; font-size: .95rem; padding: 7px; border: 0; border-radius: 8px; background: var(--green); color: #fff; }
+    .product .ask { display: block; margin-top: 6px; font-size: .8rem; color: #666; }
+    #cartBar { position: fixed; left: 0; right: 0; margin: 0 auto; width: calc(100% - 24px); max-width: 616px;
+      bottom: calc(12px + env(safe-area-inset-bottom, 0px)); display: none; justify-content: space-between;
+      background: var(--green); color: #fff; border: 2px solid var(--gold); border-radius: 14px;
+      padding: 12px 16px; font: inherit; font-weight: 700; z-index: 20; }
+    #sheet { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; z-index: 30; }
+    #sheet.open { display: block; }
+    .panel { position: absolute; bottom: 0; left: 0; right: 0; max-width: 640px; margin: 0 auto; max-height: 92%; overflow-y: auto;
+      background: var(--sand); border-radius: 18px 18px 0 0; padding: 20px 20px calc(24px + env(safe-area-inset-bottom, 0px)); }
+    .close { float: left; background: none; border: 0; font-size: 1.6rem; color: var(--ink); }
+    .row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid #ddd3bd; }
+    .row .nm { flex: 1; } .row .nm small { display: block; color: #666; font-size: .85rem; }
+    .qty button { width: 34px; height: 34px; border: 1px solid var(--gold); background: #fff; border-radius: 8px; font: inherit; font-size: 1.1rem; }
+    .qty span { display: inline-block; min-width: 28px; text-align: center; }
+    .rm { background: none; border: 0; color: #a33; font: inherit; font-size: .85rem; }
+    .tot { display: flex; justify-content: space-between; padding: 8px 0; }
+    .tot.big { font-weight: 700; font-size: 1.2rem; color: var(--green); }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: .95rem; color: var(--green); font-weight: 700; }
+    .field input, .field textarea { width: 100%; padding: 11px 12px; font: inherit; border: 1px solid #ddd3bd; border-radius: 10px; background: #fff; }
+    .field .err { color: #b3261e; font-size: .85rem; display: none; }
+    .field.bad .err { display: block; } .field.bad input { border-color: #b3261e; }
+    .btn { display: block; width: 100%; padding: 14px; font: inherit; font-weight: 700; font-size: 1.1rem; border: 0; border-radius: 12px; background: var(--green); color: #fff; margin-top: 10px; text-align: center; text-decoration: none; }
+    .btn.wa { background: var(--wa); }
+    .btn.ghost { background: transparent; color: var(--green); border: 1px solid var(--green); }
+    .note { font-size: .85rem; background: #fff3cd; border: 1px solid #e6cf83; padding: 8px 10px; border-radius: 8px; margin: 12px 0; }
+
+    /* ===== لوحة التاجر (تظهر فقط مع #admin) ===== */
+    #admin { position: fixed; inset: 0; background: var(--sand); overflow-y: auto; z-index: 40; padding: 16px 16px calc(40px + env(safe-area-inset-bottom, 0px)); }
+    .adm { max-width: 640px; margin: 0 auto; }
+    .adm h3 { color: var(--green); margin: 22px 0 8px; }
+    .adm input, .adm select, .adm textarea { width: 100%; padding: 10px; font: inherit; border: 1px solid #ddd3bd; border-radius: 8px; background: #fff; }
+    .arow { background: #fff; border: 1px solid #ddd3bd; border-radius: 10px; padding: 10px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .arow .full { grid-column: 1 / -1; }
+    .arow .del { background: none; border: 1px solid #a33; color: #a33; border-radius: 8px; font: inherit; }
+    .adm .errs { background: #fdecea; border: 1px solid #e6a5a0; color: #8a1c14; border-radius: 8px; padding: 8px 12px; margin-top: 12px; font-size: .9rem; }
+    .adm .okmsg { background: #e6f4ea; border: 1px solid #9fd1ac; color: #14532d; border-radius: 8px; padding: 8px 12px; margin-top: 12px; font-size: .9rem; }
+    .adm ol { padding-inline-start: 22px; font-size: .95rem; }
+    #gear { position: fixed; top: 10px; left: 10px; z-index: 15; background: var(--gold); color: #fff; border: 0; border-radius: 10px; padding: 8px 12px; font: inherit; font-size: .9rem; }
+
+    /* ===== بوابة الإعدادات ===== */
+    body.loading > header, body.loading > main { visibility: hidden; }
+    .setl { display: inline-block; margin-top: 8px; color: #999; font-size: .8rem; text-decoration: none; }
+    .adm details { margin: 12px 0; }
+    .adm summary { color: var(--green); font-weight: 700; padding: 6px 0; }
   </style>
 </head>
 
-<body>
+<body class="loading">
 
   <!-- ===== القسم العلوي: اللوغو + الاسم ===== -->
   <header>
@@ -103,9 +161,9 @@
             <path d="M19 20V11l10-4v13"/>
           </svg>
         </div>
-        <h1>Abdo Cosmetic<small>مستلزمات التجميل والعناية</small></h1>
+        <h1><span id="sName">Abdo Cosmetic</span><small id="sSub">مستلزمات التجميل والعناية</small></h1>
       </div>
-      <p>كلش للجمال في بلاصة وحدة. جيبلك اللي تحبو بأحسن سعر.</p>
+      <p id="sTag">كلش للجمال في بلاصة وحدة. جيبلك اللي تحبو بأحسن سعر.</p>
       <a class="wa-btn" href="#">تواصل معانا على واتساب</a>
     </div>
   </header>
@@ -115,84 +173,632 @@
     <!-- ===== المنتوجات: انسخ <a> كاملاً لإضافة منتوج. data-product هو الاسم الذي يصل في رسالة واتساب ===== -->
     <section>
       <h2>منتوجاتنا</h2>
-      <div class="products">
-
-        <a class="product" href="#" data-product="المكياج">
-          <svg viewBox="0 0 48 48"><rect x="15" y="26" width="18" height="16" rx="2"/><rect x="17" y="20" width="14" height="6"/><path d="M19 20V11l10-4v13"/></svg>
-          <strong>المكياج</strong><span>أحمر شفاه وأكثر</span>
-        </a>
-
-        <a class="product" href="#" data-product="العطور">
-          <svg viewBox="0 0 48 48"><rect x="12" y="22" width="24" height="20" rx="3"/><rect x="20" y="14" width="8" height="8"/><rect x="18" y="8" width="12" height="6" rx="1"/></svg>
-          <strong>العطور</strong><span>رجالية ونسائية</span>
-        </a>
-
-        <a class="product" href="#" data-product="كريمات البشرة">
-          <svg viewBox="0 0 48 48"><rect x="10" y="26" width="28" height="14" rx="3"/><rect x="12" y="18" width="24" height="8" rx="2"/></svg>
-          <strong>كريمات البشرة</strong><span>ترطيب وعناية</span>
-        </a>
-
-        <a class="product" href="#" data-product="منتوجات الشعر">
-          <svg viewBox="0 0 48 48"><rect x="15" y="16" width="18" height="26" rx="4"/><path d="M20 16v-6h8v6"/><path d="M28 10h6"/></svg>
-          <strong>منتوجات الشعر</strong><span>شامبو وزيوت</span>
-        </a>
-
-        <a class="product" href="#" data-product="طلاء الأظافر">
-          <svg viewBox="0 0 48 48"><rect x="14" y="24" width="20" height="18" rx="4"/><rect x="21" y="10" width="6" height="14"/></svg>
-          <strong>طلاء الأظافر</strong><span>ألوان متنوعة</span>
-        </a>
-
-        <a class="product" href="#" data-product="فرش المكياج">
-          <svg viewBox="0 0 48 48"><path d="M10 40l18-18"/><path d="M28 22l8-12 4 4-12 8z"/></svg>
-          <strong>فرش المكياج</strong><span>أدوات التزيين</span>
-        </a>
-
-      </div>
+      <p class="demo-note">⚠️ المنتوجات والأسعار هنا <b>بيانات تجريبية</b> للاختبار فقط، وليست عروضًا حقيقية.</p>
+      <input id="q" class="search" type="search" placeholder="ابحث عن منتوج...">
+      <div class="chips" id="chips"></div>
+      <div class="products" id="list"></div>
       <p class="hint">اضغط على أي منتوج وسقسينا عليه في واتساب.</p>
     </section>
 
     <section>
       <h2>خدماتنا</h2>
-      <ul class="services">
-        <li><strong>التوصيل</strong><span>نوصلوه لباب الدار، والدفع عند الاستلام.</span></li>
-        <li><strong>الطلبات الخاصة</strong><span>ما لقيتيش المنتوج؟ قولنا ونجيبوهولك.</span></li>
-      </ul>
+      <ul class="services" id="sServices"></ul>
     </section>
 
     <section>
       <h2>تواصل معانا</h2>
       <ul class="info">
-        <li><b>العنوان:</b> التوصيل لجميع ولايات الجزائر</li>
+        <li><b>العنوان:</b> <span id="sAddr"></span></li>
         <li><b>الهاتف:</b> <span id="phone-text">0698 12 33 60</span></li>
-        <li><b>أوقات العمل:</b> من 9 صباحا حتى 8 مساء، كل يوم ماعدا الجمعة</li>
+        <li><b>أوقات العمل:</b> <span id="sHours"></span></li>
       </ul>
       <a class="wa-btn" href="#">سقسينا على أي منتوج</a>
     </section>
 
   </main>
 
-  <footer>© <span id="year"></span> Abdo Cosmetic. جميع الحقوق محفوظة.</footer>
+  <footer>© <span id="year"></span> <span id="sFooterName">Abdo Cosmetic</span>. جميع الحقوق محفوظة.<br><a href="#" id="openSettings" class="setl">⚙️ إعدادات المتجر</a></footer>
+
+  <!-- ===== شريط السلة والنافذة (تظهر فوق الصفحة) ===== -->
+  <button id="cartBar" type="button"><span id="cartCount"></span><span id="cartSum"></span></button>
+  <div id="sheet">
+    <div class="panel">
+      <button class="close" id="closeBtn" type="button" aria-label="إغلاق">✕</button>
+
+      <div id="viewCart"></div>
+
+      <div id="viewForm" hidden>
+        <h2>بيانات الطلب</h2>
+        <div class="field" id="g-name"><label for="fName">الاسم الكامل</label><input id="fName" autocomplete="name"><div class="err">اكتب اسمك الكامل.</div></div>
+        <div class="field" id="g-phone"><label for="fPhone">رقم الهاتف</label><input id="fPhone" type="tel" inputmode="tel" placeholder="0698123360"><div class="err">رقم غير صحيح: يبدأ بـ 05 أو 06 أو 07 ومن 10 أرقام.</div></div>
+        <div class="field" id="g-wilaya"><label for="fWilaya">الولاية</label><input id="fWilaya" list="wilayas" autocomplete="off"><datalist id="wilayas"></datalist><div class="err">اختر ولاية من القائمة.</div></div>
+        <div class="field" id="g-addr"><label for="fAddr">العنوان</label><input id="fAddr" autocomplete="street-address"><div class="err">اكتب العنوان (البلدية والحي).</div></div>
+        <div class="field"><label for="fNote">ملاحظات (اختياري)</label><textarea id="fNote" rows="2"></textarea></div>
+        <p class="hint">طريقة الدفع: عند الاستلام.</p>
+        <button class="btn" id="sendBtn" type="button">تأكيد الطلب</button>
+        <button class="btn ghost" id="backBtn" type="button">رجوع للسلة</button>
+      </div>
+
+      <div id="viewDone" hidden></div>
+    </div>
+  </div>
 
   <script>
-    /* ===== إعداداتك: عدّل هنا فقط ===== */
-    // الرقم بصيغة دولية، بدون + وبدون صفر البداية. مثال: 0698123360 تصبح 213698123360
-    const PHONE = "213698123360";
-    const MESSAGE = "السلام عليكم، حبيت نسقسي على المنتوجات لي عندكم.";
+    /* =====================================================
+       بيانات المتجر: تُقرأ من ملف store.json
+       (التاجر يعدّلها من «إعدادات المتجر» في أسفل الصفحة)
+       ===================================================== */
+    /* بيانات احتياطية تُستعمل فقط إذا تعذر تحميل store.json */
+    const DEFAULT_STORE = {
+      "name": "Abdo Cosmetic",
+      "subtitle": "مستلزمات التجميل والعناية",
+      "tagline": "كلش للجمال في بلاصة وحدة. جيبلك اللي تحبو بأحسن سعر.",
+      "phone": "0698 12 33 60",
+      "waMessage": "السلام عليكم، حبيت نسقسي على المنتوجات لي عندكم.",
+      "address": "التوصيل لجميع ولايات الجزائر",
+      "hours": "من 9 صباحا حتى 8 مساء، كل يوم ماعدا الجمعة",
+      "deliveryFee": null,
+      "services": [
+        {
+          "title": "التوصيل",
+          "text": "نوصلوه لباب الدار، والدفع عند الاستلام."
+        },
+        {
+          "title": "الطلبات الخاصة",
+          "text": "ما لقيتيش المنتوج؟ قولنا ونجيبوهولك."
+        }
+      ],
+      "products": [
+        {
+          "name": "أحمر شفاه مات",
+          "cat": "مكياج",
+          "price": 900,
+          "icon": "lipstick"
+        },
+        {
+          "name": "طلاء أظافر",
+          "cat": "مكياج",
+          "price": 450,
+          "icon": "nail"
+        },
+        {
+          "name": "فرشاة مكياج",
+          "cat": "مكياج",
+          "price": 600,
+          "icon": "brush"
+        },
+        {
+          "name": "عطر نسائي 50مل",
+          "cat": "عطور",
+          "price": 3500,
+          "icon": "perfume"
+        },
+        {
+          "name": "عطر رجالي 50مل",
+          "cat": "عطور",
+          "price": 3800,
+          "icon": "perfume"
+        },
+        {
+          "name": "كريم ترطيب",
+          "cat": "عناية",
+          "price": 1200,
+          "icon": "cream"
+        },
+        {
+          "name": "شامبو للشعر",
+          "cat": "شعر",
+          "price": 800,
+          "icon": "hair"
+        },
+        {
+          "name": "زيت الشعر",
+          "cat": "شعر",
+          "price": 950,
+          "icon": "hair"
+        }
+      ]
+    };
+    let STORE = DEFAULT_STORE;
+
+    let PHONE = "", MESSAGE = "", DELIVERY_FEE = null, PRODUCTS = [];
+
+    function setText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
 
     /* دالة تبني رابط واتساب من أي رسالة */
     function waLink(text) {
       return "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(text);
     }
 
-    /* الأزرار العامة */
-    document.querySelectorAll(".wa-btn").forEach(function (btn) {
-      btn.href = waLink(MESSAGE);
+    /* أيقونات المنتوجات (رسم SVG) */
+    const ICONS = {
+      lipstick: '<svg viewBox="0 0 48 48"><rect x="15" y="26" width="18" height="16" rx="2"/><rect x="17" y="20" width="14" height="6"/><path d="M19 20V11l10-4v13"/></svg>',
+      perfume:  '<svg viewBox="0 0 48 48"><rect x="12" y="22" width="24" height="20" rx="3"/><rect x="20" y="14" width="8" height="8"/><rect x="18" y="8" width="12" height="6" rx="1"/></svg>',
+      cream:    '<svg viewBox="0 0 48 48"><rect x="10" y="26" width="28" height="14" rx="3"/><rect x="12" y="18" width="24" height="8" rx="2"/></svg>',
+      hair:     '<svg viewBox="0 0 48 48"><rect x="15" y="16" width="18" height="26" rx="4"/><path d="M20 16v-6h8v6"/><path d="M28 10h6"/></svg>',
+      nail:     '<svg viewBox="0 0 48 48"><rect x="14" y="24" width="20" height="18" rx="4"/><rect x="21" y="10" width="6" height="14"/></svg>',
+      brush:    '<svg viewBox="0 0 48 48"><path d="M10 40l18-18"/><path d="M28 22l8-12 4 4-12 8z"/></svg>'
+    };
+
+    /* دالة التصفية: تأخذ القائمة والتصنيف وكلمة البحث وترجع المنتوجات المطابقة */
+    function filterProducts(list, cat, term) {
+      return list.filter(function (p) {
+        return (cat === "الكل" || p.cat === cat) && p.name.includes(term);
+      });
+    }
+
+    let currentCat = "الكل";
+    let currentTerm = "";
+
+    /* رسم المنتوجات في الصفحة (esc تحمي من أكواد HTML في النصوص التي يكتبها التاجر) */
+    function renderProducts() {
+      const box = document.getElementById("list");
+      const items = filterProducts(PRODUCTS, currentCat, currentTerm);
+      if (items.length === 0) {
+        box.innerHTML = '<p class="empty">' + (PRODUCTS.length === 0 ? 'لا توجد منتوجات حاليًا.' : 'ما لقينا حتى منتوج بهذا الاسم.') + '</p>';
+        return;
+      }
+      box.innerHTML = items.map(function (p) {
+        const msg = "السلام عليكم، حبيت نسقسي على: " + p.name;
+        return '<div class="product">' + (ICONS[p.icon] || ICONS.cream) +
+          '<strong>' + esc(p.name) + '</strong><span>' + esc(p.cat) + '</span>' +
+          '<b class="price">' + (Number(p.price) || 0) + ' دج</b>' +
+          '<button class="add" type="button" data-add="' + PRODUCTS.indexOf(p) + '">أضف للسلة</button>' +
+          '<a class="ask" href="' + waLink(msg) + '">سقسينا على هذا المنتوج</a></div>';
+      }).join("");
+    }
+
+    /* أزرار التصنيف (تُبنى من تصنيفات المنتوجات الموجودة) */
+    function buildChips() {
+      const chipsBox = document.getElementById("chips");
+      const cats = ["الكل"].concat(Array.from(new Set(PRODUCTS.map(function (p) { return p.cat; }))));
+      if (cats.indexOf(currentCat) === -1) currentCat = "الكل";
+      chipsBox.innerHTML = "";
+      cats.forEach(function (c) {
+        const b = document.createElement("button");
+        b.className = "chip" + (c === currentCat ? " on" : "");
+        b.textContent = c;
+        b.onclick = function () {
+          currentCat = c;
+          chipsBox.querySelectorAll(".chip").forEach(function (x) { x.classList.toggle("on", x === b); });
+          renderProducts();
+        };
+        chipsBox.appendChild(b);
+      });
+    }
+
+    /* خانة البحث */
+    document.getElementById("q").addEventListener("input", function (e) {
+      currentTerm = e.target.value.trim();
+      renderProducts();
     });
 
-    /* كل منتوج يفتح رسالة باسمه */
-    document.querySelectorAll(".product").forEach(function (item) {
-      item.href = waLink("السلام عليكم، حبيت نسقسي على: " + item.dataset.product);
+    /* ===== تطبيق بيانات المتجر على الصفحة (تُستدعى عند التحميل وعند معاينة التاجر) ===== */
+    function applyStore() {
+      PHONE = toIntl(STORE.phone || "");
+      MESSAGE = STORE.waMessage || "";
+      DELIVERY_FEE = (typeof STORE.deliveryFee === "number") ? STORE.deliveryFee : null;
+      PRODUCTS = STORE.products || [];
+
+      document.title = STORE.name + " – " + STORE.subtitle;
+      setText("sName", STORE.name); setText("sSub", STORE.subtitle); setText("sTag", STORE.tagline);
+      setText("sAddr", STORE.address); setText("phone-text", STORE.phone); setText("sHours", STORE.hours);
+      setText("sFooterName", STORE.name);
+
+      document.getElementById("sServices").innerHTML = (STORE.services || []).map(function (sv) {
+        return '<li><strong>' + esc(sv.title) + '</strong><span>' + esc(sv.text) + '</span></li>';
+      }).join("");
+
+      document.querySelectorAll(".wa-btn").forEach(function (btn) { btn.href = waLink(MESSAGE); });
+      buildChips();
+      renderProducts();
+    }
+
+
+    /* =====================================================
+       السلة ونموذج الطلب
+       ===================================================== */
+
+    const WILAYAS = ["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إليزي","برج بوعريريج","بومرداس","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تموشنت","غرداية","غليزان","تيميمون","برج باجي مختار","أولاد جلال","بني عباس","عين صالح","عين قزام","تقرت","جانت","المغير","المنيعة"];
+
+    /* PURE:START — دوال بحتة (لا تلمس الصفحة) حتى يسهل اختبارها */
+    function normDigits(str) {              // يحوّل الأرقام العربية ٠١٢ إلى 012
+      return String(str).replace(/[٠-٩]/g, function (d) { return "٠١٢٣٤٥٦٧٨٩".indexOf(d); });
+    }
+    function validPhone(str) {              // رقم جزائري محمول: 05 أو 06 أو 07 + 8 أرقام
+      return /^0[567]\d{8}$/.test(normDigits(str).replace(/[\s.\-]/g, ""));
+    }
+    function calcTotal(lines, fee) {        // lines: [{price, qty}]
+      const subtotal = lines.reduce(function (s, l) { return s + l.price * l.qty; }, 0);
+      const f = (typeof fee === "number") ? fee : 0;
+      return { subtotal: subtotal, fee: fee, total: subtotal + f };
+    }
+    function toIntl(p) {                    // 0698123360 -> 213698123360 (صيغة رابط واتساب)
+      const d = normDigits(p).replace(/\D/g, "");
+      if (d.indexOf("213") === 0) return d;
+      return d.indexOf("0") === 0 ? "213" + d.slice(1) : "213" + d;
+    }
+    function toBase64(str) {                // نص (حتى العربي) -> base64 لإرساله إلى GitHub
+      const bytes = new TextEncoder().encode(str);
+      let bin = "";
+      bytes.forEach(function (b) { bin += String.fromCharCode(b); });
+      return btoa(bin);
+    }
+    function guessRepo(host, path) {        // من رابط GitHub Pages نعرف اسم المستخدم والمستودع
+      const m = /^(.+)\.github\.io$/i.exec(host);
+      return m ? { owner: m[1], repo: path.split("/")[1] || "" } : { owner: "", repo: "" };
+    }
+    function clampQty(q) { return Math.max(0, Math.min(20, q)); }
+    function esc(s) {                       // يمنع إدخال أكواد HTML من نصوص الزبون
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+    /* PURE:END */
+
+    /* حفظ وقراءة من localStorage (على هذا الجهاز فقط) */
+    function load(key, fallback) {
+      try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; }
+    }
+    function save(key, val) {
+      try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+    }
+
+    /* السلة: { رقم_المنتوج: الكمية } */
+    let cart = load("dz_cart", {});
+    function sanitizeCart() {                          // تنظيف أي منتوج لم يعد موجودًا
+      Object.keys(cart).forEach(function (k) {
+        if (!PRODUCTS[k] || !(cart[k] >= 1)) delete cart[k];
+        else cart[k] = clampQty(Math.floor(cart[k]));
+      });
+      save("dz_cart", cart);
+    }
+
+    function cartLines() {
+      return Object.keys(cart).map(function (k) {
+        return { i: k, name: PRODUCTS[k].name, price: PRODUCTS[k].price, qty: cart[k] };
+      });
+    }
+
+    function changeQty(i, d) {
+      cart[i] = clampQty((cart[i] || 0) + d);
+      if (cart[i] === 0) delete cart[i];
+      save("dz_cart", cart);
+      renderCartBar();
+      renderCart();
+    }
+
+    /* ---------- الشريط السفلي ---------- */
+    function renderCartBar() {
+      const lines = cartLines();
+      const bar = document.getElementById("cartBar");
+      if (lines.length === 0) { bar.style.display = "none"; return; }
+      const count = lines.reduce(function (s, l) { return s + l.qty; }, 0);
+      document.getElementById("cartCount").textContent = "🛒 السلة (" + count + ")";
+      document.getElementById("cartSum").textContent = calcTotal(lines, null).subtotal + " دج";
+      bar.style.display = "flex";
+    }
+
+    /* ---------- عرض السلة ---------- */
+    function renderCart() {
+      const lines = cartLines();
+      const box = document.getElementById("viewCart");
+      if (lines.length === 0) {
+        box.innerHTML = '<h2>السلة</h2><p>السلة فارغة. أضف منتوجًا من القائمة.</p>' +
+          '<button class="btn" data-act="close" type="button">عودة للمتجر</button>';
+        return;
+      }
+      const t = calcTotal(lines, DELIVERY_FEE);
+      box.innerHTML = '<h2>السلة</h2>' + lines.map(function (l) {
+        return '<div class="row"><div class="nm">' + esc(l.name) + '<small>' + l.price + ' دج للقطعة</small></div>' +
+          '<div class="qty"><button type="button" data-act="minus" data-i="' + l.i + '">−</button>' +
+          '<span>' + l.qty + '</span><button type="button" data-act="plus" data-i="' + l.i + '">+</button></div>' +
+          '<button class="rm" type="button" data-act="rm" data-i="' + l.i + '">حذف</button></div>';
+      }).join("") +
+        '<div class="tot"><span>مجموع المنتوجات</span><span>' + t.subtotal + ' دج</span></div>' +
+        '<div class="tot"><span>التوصيل</span><span>' + (typeof t.fee === "number" ? t.fee + ' دج' : 'يحدده التاجر عند التأكيد') + '</span></div>' +
+        '<div class="tot big"><span>الإجمالي' + (typeof t.fee === "number" ? '' : ' (بدون التوصيل)') + '</span><span>' + t.total + ' دج</span></div>' +
+        '<button class="btn" data-act="checkout" type="button">متابعة الطلب</button>';
+    }
+
+    /* ---------- التنقل بين الشاشات ---------- */
+    function showView(name) {
+      ["viewCart", "viewForm", "viewDone"].forEach(function (v) {
+        document.getElementById(v).hidden = (v !== name);
+      });
+      document.getElementById("sheet").scrollTop = 0;
+    }
+    function openSheet() { renderCart(); showView("viewCart"); document.getElementById("sheet").classList.add("open"); }
+    function closeSheet() { document.getElementById("sheet").classList.remove("open"); }
+
+    /* ---------- التحقق من نموذج الطلب ---------- */
+    function readForm() {
+      const v = {
+        name: document.getElementById("fName").value.trim(),
+        phone: normDigits(document.getElementById("fPhone").value).replace(/[\s.\-]/g, ""),
+        wilaya: document.getElementById("fWilaya").value.trim(),
+        addr: document.getElementById("fAddr").value.trim(),
+        note: document.getElementById("fNote").value.trim()
+      };
+      const ok = { name: v.name.length >= 3, phone: validPhone(v.phone), wilaya: WILAYAS.indexOf(v.wilaya) !== -1, addr: v.addr.length >= 6 };
+      Object.keys(ok).forEach(function (k) {
+        document.getElementById("g-" + k).classList.toggle("bad", !ok[k]);
+      });
+      return Object.keys(ok).every(function (k) { return ok[k]; }) ? v : null;
+    }
+
+    /* ---------- تأكيد الطلب وحفظه ---------- */
+    function submitOrder() {
+      const lines = cartLines();
+      if (lines.length === 0) { showView("viewCart"); renderCart(); return; }
+      const c = readForm();
+      if (!c) return;                                    // توجد أخطاء ظاهرة للزبون
+      const t = calcTotal(lines, DELIVERY_FEE);
+      const order = {
+        id: "DZ-" + Date.now().toString(36).toUpperCase().slice(-6),
+        date: new Date().toISOString(),
+        status: "جديد",
+        payment: "COD",
+        items: lines.map(function (l) { return { name: l.name, price: l.price, qty: l.qty }; }),
+        subtotal: t.subtotal, fee: DELIVERY_FEE,
+        customer: { name: c.name, phone: c.phone, wilaya: c.wilaya, addr: c.addr, note: c.note }
+      };
+      const orders = load("dz_orders", []);
+      orders.push(order);
+      save("dz_orders", orders);
+      cart = {}; save("dz_cart", cart); renderCartBar();
+      renderDone(order, t);
+    }
+
+    function renderDone(o, t) {
+      let msg = "طلب جديد " + o.id + "\n" + o.items.map(function (i) {
+        return "• " + i.name + " × " + i.qty + " = " + (i.price * i.qty) + " دج";
+      }).join("\n") + "\nمجموع المنتوجات: " + t.subtotal + " دج" +
+        "\nالاسم: " + o.customer.name + "\nالهاتف: " + o.customer.phone +
+        "\nالولاية: " + o.customer.wilaya + "\nالعنوان: " + o.customer.addr +
+        "\nالدفع: عند الاستلام" + (o.customer.note ? "\nملاحظات: " + o.customer.note : "");
+      document.getElementById("viewDone").innerHTML =
+        '<h2>تم تسجيل طلبك ✅</h2><p>رقم الطلب: <b>' + o.id + '</b> — الحالة: ' + o.status + '</p>' +
+        o.items.map(function (i) {
+          return '<div class="tot"><span>' + esc(i.name) + ' × ' + i.qty + '</span><span>' + (i.price * i.qty) + ' دج</span></div>';
+        }).join("") +
+        '<div class="tot big"><span>الإجمالي' + (typeof t.fee === "number" ? '' : ' (بدون التوصيل)') + '</span><span>' + t.total + ' دج</span></div>' +
+        '<p>الاسم: ' + esc(o.customer.name) + '<br>الهاتف: ' + esc(o.customer.phone) + '<br>' + esc(o.customer.wilaya) + ' — ' + esc(o.customer.addr) + '</p>' +
+        '<p class="note">⚠️ نموذج تجريبي: الطلب محفوظ على هذا الجهاز فقط ولم يصل للتاجر بعد. اضغط الزر الأخضر لإرساله.</p>' +
+        '<a class="btn wa" href="' + waLink(msg) + '">أرسل الطلب للتاجر عبر واتساب</a>' +
+        '<button class="btn ghost" data-act="close" type="button">عودة للمتجر</button>';
+      showView("viewDone");
+    }
+
+    /* ---------- ربط الأحداث ---------- */
+    const dl = document.getElementById("wilayas");
+    WILAYAS.forEach(function (w) { const o = document.createElement("option"); o.value = w; dl.appendChild(o); });
+
+    document.getElementById("list").addEventListener("click", function (e) {      // زر "أضف للسلة"
+      const b = e.target.closest("[data-add]");
+      if (!b) return;
+      const i = b.dataset.add;
+      cart[i] = clampQty((cart[i] || 0) + 1);
+      save("dz_cart", cart); renderCartBar();
+      b.textContent = "✓ أضيف"; setTimeout(function () { b.textContent = "أضف للسلة"; }, 900);
     });
+
+    document.getElementById("viewCart").addEventListener("click", function (e) {   // أزرار السلة
+      const b = e.target.closest("[data-act]");
+      if (!b) return;
+      const act = b.dataset.act;
+      if (act === "plus") changeQty(b.dataset.i, 1);
+      else if (act === "minus") changeQty(b.dataset.i, -1);
+      else if (act === "rm") changeQty(b.dataset.i, -(cart[b.dataset.i] || 0));
+      else if (act === "checkout") showView("viewForm");
+      else if (act === "close") closeSheet();
+    });
+    document.getElementById("viewDone").addEventListener("click", function (e) {
+      if (e.target.closest('[data-act="close"]')) closeSheet();
+    });
+    document.getElementById("cartBar").onclick = openSheet;
+    document.getElementById("closeBtn").onclick = closeSheet;
+    document.getElementById("backBtn").onclick = function () { renderCart(); showView("viewCart"); };
+    document.getElementById("sendBtn").onclick = submitOrder;
+    document.getElementById("sheet").addEventListener("click", function (e) { if (e.target.id === "sheet") closeSheet(); });
+
+
+    /* =====================================================
+       بوابة الإعدادات: التاجر يعدّل المعلومات ثم يضغط «حفظ ونشر»
+       فيُحدَّث ملف store.json في GitHub مباشرة ويراه الزبائن.
+       ===================================================== */
+    const GH_KEY = "dz_gh";                     // يحفظ المفتاح على هذا الجهاز فقط
+    const ICON_LABELS = { lipstick: "أحمر شفاه", perfume: "عطر", cream: "كريم", hair: "شعر", nail: "طلاء أظافر", brush: "فرشاة" };
+    let draft = null;
+
+    const panel = document.createElement("div");
+    panel.id = "admin"; panel.style.display = "none";
+    document.body.appendChild(panel);
+
+    /* ----- التواصل مع GitHub ----- */
+    function ghHeaders(cfg, json) {
+      const h = { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + cfg.token, "X-GitHub-Api-Version": "2022-11-28" };
+      if (json) h["Content-Type"] = "application/json";
+      return h;
+    }
+    function ghUrl(cfg) {
+      return "https://api.github.com/repos/" + encodeURIComponent(cfg.owner) + "/" + encodeURIComponent(cfg.repo) + "/contents/store.json";
+    }
+    function ghGet(cfg) {
+      return fetch(ghUrl(cfg), { headers: ghHeaders(cfg), cache: "no-store" }).then(function (r) {
+        if (!r.ok) throw { status: r.status };
+        return r.json();
+      });
+    }
+    function publish(cfg, data) {
+      return ghGet(cfg).then(function (cur) {
+        const body = { message: "تحديث بيانات المتجر من بوابة الإعدادات", content: toBase64(JSON.stringify(data, null, 2) + "\n"), sha: cur.sha };
+        return fetch(ghUrl(cfg), { method: "PUT", headers: ghHeaders(cfg, true), body: JSON.stringify(body) });
+      }).then(function (r) { if (!r.ok) throw { status: r.status }; });
+    }
+    function errText(e) {
+      const st = e && e.status;
+      if (st === 401) return "المفتاح غير صالح أو انتهت صلاحيته. أنشئ مفتاحًا جديدًا.";
+      if (st === 403) return "المفتاح لا يملك صلاحية الكتابة. عند إنشائه اختر Contents ثم Read and write.";
+      if (st === 404) return "لم أجد المستودع أو ملف store.json. تأكد من اسم المستخدم واسم المستودع ومن رفع ملف store.json.";
+      if (st === 409 || st === 422) return "حدث تعارض أثناء الحفظ. اضغط حفظ ونشر مرة أخرى.";
+      return "تعذر الاتصال. تأكد من الإنترنت وأعد المحاولة.";
+    }
+
+    /* ----- شاشة الدخول (مرة واحدة) ----- */
+    function renderLogin() {
+      const g = guessRepo(location.hostname, location.pathname);
+      panel.innerHTML = '<div class="adm"><button class="close" id="admClose" type="button" aria-label="إغلاق">✕</button><h2>إعدادات المتجر</h2>' +
+        '<p>لتعديل معلومات متجرك ادخل بـ «مفتاح» خاص بك. تنشئه <b>مرة واحدة</b> ثم يبقى محفوظًا على هذا الهاتف.</p>' +
+        '<div class="field"><label>المفتاح (يبدأ بـ github_pat_)</label><input id="gTok" type="password" autocomplete="off"></div>' +
+        '<details><summary>كيف أحصل على المفتاح؟</summary><ol>' +
+        '<li>افتح github.com وسجّل الدخول.</li>' +
+        '<li>اضغط صورة حسابك ← <b>Settings</b> ← <b>Developer settings</b>.</li>' +
+        '<li><b>Personal access tokens</b> ← <b>Fine-grained tokens</b> ← <b>Generate new token</b>.</li>' +
+        '<li>اكتب أي اسم وحدّد مدة الصلاحية (مثلًا سنة).</li>' +
+        '<li>في <b>Repository access</b> اختر <b>Only select repositories</b> ثم مستودع موقعك.</li>' +
+        '<li>في <b>Repository permissions</b> اجعل <b>Contents</b> = <b>Read and write</b>.</li>' +
+        '<li>اضغط <b>Generate token</b>، وانسخ المفتاح فورًا (لن يظهر مرة أخرى) والصقه هنا.</li></ol></details>' +
+        '<details><summary>إعدادات متقدمة</summary>' +
+        '<div class="field"><label>اسم المستخدم في GitHub</label><input id="gOwner" value="' + esc(g.owner) + '"></div>' +
+        '<div class="field"><label>اسم المستودع</label><input id="gRepo" value="' + esc(g.repo) + '"></div></details>' +
+        '<div id="admMsg"></div><button class="btn" type="button" id="gLogin">دخول</button></div>';
+    }
+
+    /* ----- شاشة تعديل المعلومات ----- */
+    function field(label, k, type) {
+      return '<div class="field"><label>' + label + '</label><input data-k="' + k + '" type="' + (type || "text") + '" value="' + esc(draft[k]) + '"></div>';
+    }
+    function renderEditor() {
+      panel.innerHTML = '<div class="adm">' +
+        '<button class="close" id="admClose" type="button" aria-label="إغلاق">✕</button><h2>إعدادات المتجر</h2>' +
+        '<h3>معلومات المتجر</h3>' +
+        field("اسم المتجر", "name") + field("وصف قصير تحت الاسم", "subtitle") + field("جملة الترحيب", "tagline") +
+        field("رقم الهاتف (واتساب)", "phone", "tel") + field("الرسالة الجاهزة في واتساب", "waMessage") +
+        field("العنوان", "address") + field("أوقات العمل", "hours") +
+        field("رسوم التوصيل بالدينار (اتركها فارغة إن كنت تحددها لكل طلب)", "deliveryFee") +
+        '<h3>الخدمات</h3>' + draft.services.map(function (sv, i) {
+          return '<div class="arow"><input class="full" data-l="services" data-i="' + i + '" data-k="title" placeholder="عنوان الخدمة" value="' + esc(sv.title) + '">' +
+            '<input class="full" data-l="services" data-i="' + i + '" data-k="text" placeholder="وصف قصير" value="' + esc(sv.text) + '">' +
+            '<button class="del full" type="button" data-del="services" data-i="' + i + '">حذف الخدمة</button></div>';
+        }).join("") + '<button class="btn ghost" type="button" data-new="services">+ إضافة خدمة</button>' +
+        '<h3>المنتوجات</h3>' + draft.products.map(function (p, i) {
+          const opts = Object.keys(ICON_LABELS).map(function (k) {
+            return '<option value="' + k + '"' + (p.icon === k ? " selected" : "") + '>' + ICON_LABELS[k] + '</option>';
+          }).join("");
+          return '<div class="arow"><input class="full" data-l="products" data-i="' + i + '" data-k="name" placeholder="اسم المنتوج" value="' + esc(p.name) + '">' +
+            '<input data-l="products" data-i="' + i + '" data-k="cat" placeholder="التصنيف" value="' + esc(p.cat) + '">' +
+            '<input data-l="products" data-i="' + i + '" data-k="price" inputmode="numeric" placeholder="السعر (دج)" value="' + esc(p.price) + '">' +
+            '<select data-l="products" data-i="' + i + '" data-k="icon">' + opts + '</select>' +
+            '<button class="del" type="button" data-del="products" data-i="' + i + '">حذف</button></div>';
+        }).join("") + '<button class="btn ghost" type="button" data-new="products">+ إضافة منتوج</button>' +
+        '<div id="admMsg"></div>' +
+        '<button class="btn" type="button" id="admPublish">حفظ ونشر للزبائن</button>' +
+        '<p class="hint">بعد الحفظ تظهر التعديلات للزبائن خلال دقيقة تقريبًا.</p>' +
+        '<button class="btn ghost" type="button" id="admLogout">تسجيل الخروج من هذا الهاتف</button></div>';
+    }
+
+    /* يبني نسخة نظيفة من المعلومات ويتحقق منها */
+    function buildClean() {
+      const errs = [];
+      const t = function (v) { return String(v === null || v === undefined ? "" : v).trim(); };
+      const d = { name: t(draft.name), subtitle: t(draft.subtitle), tagline: t(draft.tagline), phone: t(draft.phone),
+                  waMessage: t(draft.waMessage), address: t(draft.address), hours: t(draft.hours) };
+      if (!d.name) errs.push("اسم المتجر مطلوب.");
+      if (!validPhone(d.phone)) errs.push("رقم الهاتف غير صحيح (يبدأ بـ 05 أو 06 أو 07 ومن 10 أرقام).");
+      if (!d.waMessage) errs.push("اكتب رسالة واتساب الجاهزة.");
+      const fee = normDigits(t(draft.deliveryFee));
+      if (fee === "") d.deliveryFee = null;
+      else if (/^\d+$/.test(fee)) d.deliveryFee = Number(fee);
+      else errs.push("رسوم التوصيل: اكتب رقمًا صحيحًا أو اتركها فارغة.");
+      d.services = draft.services.map(function (sv, i) {
+        if (!t(sv.title)) errs.push("الخدمة رقم " + (i + 1) + " بدون عنوان.");
+        return { title: t(sv.title), text: t(sv.text) };
+      });
+      d.products = draft.products.map(function (p, i) {
+        const price = normDigits(t(p.price));
+        if (!t(p.name)) errs.push("المنتوج رقم " + (i + 1) + " بدون اسم.");
+        if (!t(p.cat)) errs.push("المنتوج رقم " + (i + 1) + " بدون تصنيف.");
+        if (!/^\d+$/.test(price)) errs.push("سعر المنتوج رقم " + (i + 1) + " يجب أن يكون رقمًا صحيحًا.");
+        return { name: t(p.name), cat: t(p.cat), price: Number(price) || 0, icon: ICON_LABELS[p.icon] ? p.icon : "cream" };
+      });
+      return { d: d, errs: errs };
+    }
+
+    function msg(html, ok) {
+      document.getElementById("admMsg").innerHTML = '<div class="' + (ok ? "okmsg" : "errs") + '">' + html + '</div>';
+    }
+
+    function openSettings() {
+      draft = JSON.parse(JSON.stringify(STORE));
+      draft.services = draft.services || []; draft.products = draft.products || [];
+      draft.deliveryFee = (draft.deliveryFee === null || draft.deliveryFee === undefined) ? "" : String(draft.deliveryFee);
+      panel.style.display = "block"; document.body.style.overflow = "hidden";
+      if (load(GH_KEY, null)) renderEditor(); else renderLogin();
+    }
+    function closeSettings() { panel.style.display = "none"; document.body.style.overflow = ""; }
+
+    panel.addEventListener("input", function (e) {
+      const el = e.target, k = el.dataset.k;
+      if (!k) return;
+      if (el.dataset.l) draft[el.dataset.l][Number(el.dataset.i)][k] = el.value;
+      else draft[k] = el.value;
+    });
+
+    panel.addEventListener("click", function (e) {
+      const b = e.target.closest("button");
+      if (!b) return;
+      if (b.id === "admClose") { closeSettings(); return; }
+      if (b.dataset.new) {
+        draft[b.dataset.new].push(b.dataset.new === "products" ? { name: "", cat: "", price: "", icon: "cream" } : { title: "", text: "" });
+        renderEditor(); return;
+      }
+      if (b.dataset.del) { draft[b.dataset.del].splice(Number(b.dataset.i), 1); renderEditor(); return; }
+
+      if (b.id === "gLogin") {                                  // الدخول بالمفتاح
+        const cfg = { token: panel.querySelector("#gTok").value.trim(), owner: panel.querySelector("#gOwner").value.trim(), repo: panel.querySelector("#gRepo").value.trim() };
+        if (!cfg.token || !cfg.owner || !cfg.repo) { msg("اكتب المفتاح، واسم المستخدم واسم المستودع (في الإعدادات المتقدمة).", false); return; }
+        b.disabled = true; b.textContent = "جاري التحقق...";
+        ghGet(cfg).then(function () { save(GH_KEY, cfg); renderEditor(); })
+          .catch(function (err) { msg(esc(errText(err)), false); b.disabled = false; b.textContent = "دخول"; });
+        return;
+      }
+
+      if (b.id === "admPublish") {                              // الحفظ والنشر
+        const r = buildClean();
+        if (r.errs.length) { msg(r.errs.map(esc).join("<br>"), false); return; }
+        b.disabled = true; b.textContent = "جاري النشر...";
+        publish(load(GH_KEY, null), r.d).then(function () {
+          STORE = r.d; applyStore(); sanitizeCart(); renderCartBar();
+          msg("تم الحفظ والنشر ✓ ستظهر التعديلات للزبائن خلال دقيقة تقريبًا.", true);
+        }).catch(function (err) { msg(esc(errText(err)), false); })
+          .then(function () { b.disabled = false; b.textContent = "حفظ ونشر للزبائن"; });
+        return;
+      }
+
+      if (b.id === "admLogout") {
+        try { localStorage.removeItem(GH_KEY); } catch (err) {}
+        renderLogin();
+      }
+    });
+
+    document.getElementById("openSettings").onclick = function (e) { e.preventDefault(); openSettings(); };
+
+    /* ===== تحميل بيانات المتجر عند فتح الصفحة =====
+       no-cache: يتأكد المتصفح من وجود نسخة أحدث قبل استعمال القديمة. */
+    function startStore() {
+      const done = function (data) {
+        STORE = data; applyStore(); sanitizeCart(); renderCartBar();
+        document.body.classList.remove("loading");
+        if (location.hash === "#admin") openSettings();
+      };
+      setTimeout(function () { document.body.classList.remove("loading"); }, 4000);   // احتياط عند بطء الشبكة
+      fetch("store.json", { cache: "no-cache" })
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (d) { if (!d || !Array.isArray(d.products)) throw 0; done(d); })
+        .catch(function () { done(DEFAULT_STORE); });
+    }
+    startStore();
 
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
