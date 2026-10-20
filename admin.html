@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>لوحة الطلبيات – Abdo Cosmetic</title>
+<style>
+:root{--bg:#fbf4f6;--sf:#fff;--ink:#2a1630;--mut:#7a6a80;--line:#ead9e2;--brand:#b83a6b;--tint:#f3e3ec;--plum:#2a1630;--ok:#1f8a4c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150b19;--sf:#21122a;--ink:#f6e9f0;--mut:#b19bb9;--line:#3a2445;--brand:#e0578a;--tint:#2f1a3a;--plum:#0e0612}}
+:root[data-theme="dark"]{--bg:#150b19;--sf:#21122a;--ink:#f6e9f0;--mut:#b19bb9;--line:#3a2445;--brand:#e0578a;--tint:#2f1a3a;--plum:#0e0612}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 Tajawal,system-ui,"Segoe UI",Tahoma,sans-serif;padding-bottom:90px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--plum);z-index:30}
+button,select,input,textarea{font:inherit;color:var(--ink)}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--plum);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+header h1{margin:0;font-size:18px}
+.b{border:0;border-radius:10px;padding:8px 12px;background:var(--brand);color:#fff;font-weight:700}
+.b.g{background:transparent;border:1px solid var(--line);color:var(--ink)}header .b.g{color:#fff;border-color:#ffffff55}
+main{max-width:900px;margin:0 auto;padding:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.stat{background:var(--sf);border:1px solid var(--line);border-radius:12px;padding:8px 10px}.stat small{color:var(--mut);display:block}.stat b{font-size:17px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px}
+.chip{flex:none;border:1px solid var(--line);background:var(--sf);border-radius:99px;padding:4px 12px}
+.chip[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.tools{display:flex;gap:8px;align-items:center;margin-bottom:8px}.tools input[type=search]{flex:1}
+input,select,textarea{border:1px solid var(--line);background:var(--sf);border-radius:10px;padding:8px;width:100%}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--brand)}
+.o{background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px;display:grid;grid-template-columns:auto 1fr auto;gap:8px 10px}
+.o.sel{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand) inset}
+.o small{display:block;color:var(--mut)}.o .m{min-width:0}.o .m b{display:block}
+.o .r{text-align:left;display:flex;flex-direction:column;gap:6px;min-width:130px}
+.o .id{font:12px ui-monospace,Menlo,monospace;direction:ltr;text-align:right}
+.o .del{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mut)}
+.o .del button{background:none;border:0;color:#c62f3f}
+.empty{text-align:center;color:var(--mut);padding:30px 0}
+.bar{position:fixed;inset-inline:0;bottom:0;background:var(--plum);color:#fff;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));display:none;gap:8px;align-items:center;flex-wrap:wrap;z-index:25}
+.bar.on{display:flex}.bar select{width:auto;flex:1;min-width:120px;color:var(--ink)}
+.ov{position:fixed;inset:0;background:rgba(10,4,14,.6);display:none;align-items:flex-end;justify-content:center;z-index:40}.ov.on{display:flex}
+.sh{background:var(--sf);width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+@media(min-width:640px){.ov{align-items:center}.sh{border-radius:20px}}
+.sh h3{margin:0 0 8px}.sh label{display:block;margin:10px 0 3px;font-size:13px}.sh .b{width:100%;margin-top:12px}
+.toast{position:fixed;inset-inline:16px;bottom:90px;max-width:380px;margin:0 auto;background:var(--plum);color:#fff;padding:10px;border-radius:12px;text-align:center;z-index:60;display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>لوحة الطلبيات</h1>
+  <div style="display:flex;gap:6px"><button class="b g" id="bImp">استيراد واتساب</button><button class="b" id="bAdd">+ طلبية</button></div>
+</header>
+<main>
+  <div class="stats">
+    <div class="stat"><small>كل الطلبيات</small><b id="sAll">0</b></div>
+    <div class="stat"><small>جديدة</small><b id="sNew">0</b></div>
+    <div class="stat"><small>مبيعات مسلّمة</small><b id="sRev">0</b></div>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="tools"><input type="checkbox" id="all" aria-label="تحديد الكل"><input type="search" id="q" placeholder="بحث: اسم، هاتف، ولاية، رقم طلبية"></div>
+  <div id="list"></div>
+</main>
+
+<div class="bar" id="bar">
+  <b id="selN" style="min-width:60px"></b>
+  <select id="bulkSt"></select>
+  <select id="bulkCa"></select>
+  <button class="b" id="bExport" style="width:100%">تصدير حسب شركة التوصيل (CSV)</button>
+</div>
+
+<div class="ov" id="ovAdd"><div class="sh"><h3>إضافة طلبية يدوية</h3>
+  <label>الاسم الكامل</label><input id="aName">
+  <label>الهاتف</label><input id="aPhone" inputmode="tel" dir="ltr" style="text-align:right">
+  <label>الولاية</label><input id="aWilaya">
+  <label>العنوان (البلدية والحي)</label><input id="aAddr">
+  <label>المنتوجات</label><input id="aProd" placeholder="مثال: كريم × 2">
+  <label>المبلغ (دج)</label><input id="aTotal" inputmode="numeric">
+  <label>شركة التوصيل</label><select id="aCar"></select>
+  <button class="b" id="aSave">حفظ</button><button class="b g" data-x>إلغاء</button></div></div>
+
+<div class="ov" id="ovImp"><div class="sh"><h3>استيراد طلبية من واتساب</h3>
+  <p style="color:var(--mut);margin:0;font-size:13px">الصق رسالة الطلب كما وصلتك من المتجر (يمكن لصق عدة رسائل).</p>
+  <textarea id="iTxt" rows="9"></textarea>
+  <button class="b" id="iGo">استيراد</button><button class="b g" data-x>إلغاء</button></div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STATUSES=["جديدة","مؤكدة","قيد التوصيل","مسلّمة","مرتجعة","ملغاة"];
+const CARRIERS=["Yalidine","ZR Express","Maystro","Ecotrack"];
+/* قوالب التصدير: [اسم العمود, الحقل]. قارنها بنموذج الاستيراد الرسمي لكل شركة وعدّلها هنا. */
+const TEMPLATES={
+ "Yalidine":[["order_id","id"],["firstname","first"],["familyname","last"],["contact_phone","phone"],["address","address"],["to_wilaya_name","wilaya"],["product_list","products"],["price","price"],["note","note"]],
+ "ZR Express":[["Reference","id"],["Client","name"],["Telephone","phone"],["Wilaya","wilaya"],["Adresse","address"],["Produit","products"],["Montant","price"],["Remarque","note"]],
+ "Maystro":[["external_order_id","id"],["customer_name","name"],["customer_phone","phone"],["wilaya","wilaya"],["address","address"],["product_name","products"],["total_price","price"],["note","note"]],
+ "Ecotrack":[["reference","id"],["nom_client","name"],["telephone","phone"],["adresse","address"],["wilaya","wilaya"],["produit","products"],["montant","price"],["remarque","note"]]
+};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=n=>(+n||0).toLocaleString("fr-DZ").replace(/\u202f|\u00a0/g," ")+" دج";
+const load=()=>{try{return JSON.parse(localStorage.getItem("abdo_orders")||"[]")}catch(e){return[]}};
+const save=()=>{try{localStorage.setItem("abdo_orders",JSON.stringify(orders))}catch(e){}};
+let orders=load().map(o=>Object.assign({status:"جديدة",carrier:"",name:""},o));
+let filter="الكل",sel=new Set(),tt;
+const toast=m=>{const t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(tt);tt=setTimeout(()=>t.style.display="none",2600)};
+const opts=(arr,cur,ph)=>(ph?`<option value="">${ph}</option>`:"")+arr.map(a=>`<option${a===cur?" selected":""}>${esc(a)}</option>`).join("");
+const prods=o=>typeof o.items==="string"?o.items:(o.items||[]).map(i=>`${i.name} × ${i.q}`).join("، ");
+
+function visible(){
+  const q=$("q").value.trim().toLowerCase();
+  return orders.filter(o=>(filter==="الكل"||o.status===filter)&&(!q||[o.name,o.phone,o.wilaya,o.id,o.addr].join(" ").toLowerCase().includes(q)));
+}
+function render(){
+  $("sAll").textContent=orders.length;
+  $("sNew").textContent=orders.filter(o=>o.status==="جديدة").length;
+  $("sRev").textContent=money(orders.filter(o=>o.status==="مسلّمة").reduce((s,o)=>s+(+o.total||0),0));
+  $("chips").innerHTML=["الكل",...STATUSES].map(s=>{const n=s==="الكل"?orders.length:orders.filter(o=>o.status===s).length;
+    return `<button class="chip" aria-pressed="${s===filter}" data-f="${s}">${s} (${n})</button>`}).join("");
+  const v=visible();
+  $("list").innerHTML=v.length?v.map(o=>`
+   <article class="o ${sel.has(o.id)?"sel":""}">
+    <input type="checkbox" data-s="${esc(o.id)}" ${sel.has(o.id)?"checked":""} aria-label="تحديد">
+    <div class="m"><b>${esc(o.name||"بدون اسم")}</b><span dir="ltr">${esc(o.phone)}</span>
+      <small>${esc(o.wilaya)} – ${esc(o.addr)}</small><small>${esc(prods(o))}</small>${o.note?`<small>📝 ${esc(o.note)}</small>`:""}</div>
+    <div class="r"><b>${money(o.total)}</b>
+      <select data-st="${esc(o.id)}">${opts(STATUSES,o.status)}</select>
+      <select data-ca="${esc(o.id)}">${opts(CARRIERS,o.carrier,"— الشركة —")}</select></div>
+    <div class="del"><span class="id">${esc(o.id)}</span><button data-d="${esc(o.id)}">حذف</button></div>
+   </article>`).join(""):`<div class="empty">لا توجد طلبيات هنا. أضف طلبية أو استورد رسالة واتساب.</div>`;
+  const n=sel.size;$("bar").classList.toggle("on",n>0);$("selN").textContent=n+" محددة";
+  $("bulkSt").innerHTML=opts(STATUSES,"","تغيير الحالة");$("bulkCa").innerHTML=opts(CARRIERS,"","تعيين الشركة");
+  $("all").checked=v.length>0&&v.every(o=>sel.has(o.id));
+}
+const get=id=>orders.find(o=>o.id===id);
+$("chips").onclick=e=>{const b=e.target.closest("[data-f]");if(b){filter=b.dataset.f;render()}};
+$("q").oninput=render;
+$("all").onchange=e=>{visible().forEach(o=>e.target.checked?sel.add(o.id):sel.delete(o.id));render()};
+$("list").onchange=e=>{const t=e.target;
+  if(t.dataset.s){t.checked?sel.add(t.dataset.s):sel.delete(t.dataset.s)}
+  else if(t.dataset.st){get(t.dataset.st).status=t.value;save()}
+  else if(t.dataset.ca){get(t.dataset.ca).carrier=t.value;save()}
+  render()};
+$("list").onclick=e=>{const b=e.target.closest("[data-d]");if(b&&confirm("حذف هذه الطلبية؟")){orders=orders.filter(o=>o.id!==b.dataset.d);sel.delete(b.dataset.d);save();render()}};
+$("bulkSt").onchange=e=>{if(!e.target.value)return;orders.forEach(o=>sel.has(o.id)&&(o.status=e.target.value));save();render();toast("تم تغيير الحالة")};
+$("bulkCa").onchange=e=>{if(!e.target.value)return;orders.forEach(o=>sel.has(o.id)&&(o.carrier=e.target.value));save();render();toast("تم تعيين الشركة")};
+
+/* ===== التصدير: ملف CSV لكل شركة توصيل ===== */
+const csvCell=v=>`"${String(v??"").replace(/"/g,'""').replace(/\r?\n/g," ")}"`;
+function fields(o){const parts=(o.name||"").trim().split(/\s+/);
+  return {id:o.id,name:o.name,first:parts[0]||"",last:parts.slice(1).join(" "),phone:o.phone,address:o.addr,wilaya:o.wilaya,products:prods(o),price:o.total,note:o.note||""}}
+function download(name,text){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\uFEFF"+text],{type:"text/csv;charset=utf-8"}));a.download=name;a.click()}
+$("bExport").onclick=()=>{
+  const chosen=orders.filter(o=>sel.has(o.id));
+  const none=chosen.filter(o=>!TEMPLATES[o.carrier]);
+  if(none.length){toast(none.length+" طلبية بدون شركة توصيل، عيّن لها شركة أولًا");return}
+  const groups={};chosen.forEach(o=>(groups[o.carrier]=groups[o.carrier]||[]).push(o));
+  const day=new Date().toISOString().slice(0,10);
+  Object.keys(groups).forEach((c,i)=>setTimeout(()=>{
+    const t=TEMPLATES[c];
+    const rows=[t.map(x=>csvCell(x[0])).join(",")].concat(groups[c].map(o=>{const f=fields(o);return t.map(x=>csvCell(f[x[1]])).join(",")}));
+    download(`${c.replace(/\s/g,"_")}_${day}.csv`,rows.join("\r\n"));
+  },i*500));
+  toast(`تصدير ${chosen.length} طلبية إلى ${Object.keys(groups).length} شركة`);
+  setTimeout(()=>{if(confirm("تعليم الطلبيات المصدَّرة بحالة «قيد التوصيل»؟")){chosen.forEach(o=>o.status="قيد التوصيل");sel.clear();save();render()}},Object.keys(groups).length*500+400);
+};
+
+/* ===== إضافة / استيراد ===== */
+const ov=id=>$(id).classList.add("on"),closeAll=()=>document.querySelectorAll(".ov.on").forEach(x=>x.classList.remove("on"));
+document.querySelectorAll(".ov").forEach(o=>o.addEventListener("click",e=>{if(e.target===o||e.target.dataset.x!==undefined)closeAll()}));
+$("aCar").innerHTML=opts(CARRIERS,"");
+$("bAdd").onclick=()=>ov("ovAdd");$("bImp").onclick=()=>ov("ovImp");
+$("aSave").onclick=()=>{
+  const o={id:"MAN-"+Date.now().toString(36).toUpperCase(),name:$("aName").value.trim(),phone:$("aPhone").value.replace(/[\s.\-]/g,""),wilaya:$("aWilaya").value.trim(),addr:$("aAddr").value.trim(),items:$("aProd").value.trim(),total:+$("aTotal").value||0,carrier:$("aCar").value,status:"جديدة",note:"",at:Date.now()};
+  if(!/^0[567]\d{8}$/.test(o.phone)||!o.name||!o.wilaya||!o.addr){toast("أكمل الاسم والهاتف (05/06/07) والولاية والعنوان");return}
+  orders.unshift(o);save();closeAll();render();toast("تمت الإضافة")};
+function parse(block){
+  const g=re=>{const m=block.match(re);return m?m[1].trim():""};
+  const id=g(/طلبية جديدة\s+(\S+)/);if(!id)return null;
+  const items=[...block.matchAll(/•\s*(.+?)\s*×\s*(\d+)\s*=\s*(\d+)/g)].map(m=>({name:m[1],q:+m[2],p:+m[3]/+m[2]}));
+  const ad=g(/📍\s*(.+)/),k=ad.indexOf(" - ");
+  return {id,items,total:+g(/المجموع:\s*(\d+)/)||0,name:g(/👤\s*(.+)/),phone:g(/📞\s*(\S+)/),wilaya:k<0?ad:ad.slice(0,k),addr:k<0?"":ad.slice(k+3),note:g(/📝\s*(.+)/),carrier:g(/🚚\s*(.+)/),status:"جديدة",at:Date.now()}}
+$("iGo").onclick=()=>{
+  const blocks=$("iTxt").value.split(/(?=🛍️)/).map(parse).filter(Boolean);
+  let n=0;blocks.forEach(o=>{if(!get(o.id)){orders.unshift(o);n++}});
+  if(!blocks.length){toast("لم أجد رسالة طلب صالحة");return}
+  save();$("iTxt").value="";closeAll();render();toast(`تم استيراد ${n} طلبية`)};
+render();
+</script>
+</body>
+</html>
