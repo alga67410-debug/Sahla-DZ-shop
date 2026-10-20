@@ -56,7 +56,8 @@ h2{font-family:var(--f-display);font-size:30px;margin:0 0 6px}
 @media (min-width:720px){.grid{grid-template-columns:repeat(4,1fr);gap:16px}}
 .prod{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
 .prod:nth-child(3n+2){border-radius:18px 18px 40px 18px}
-.thumb{aspect-ratio:1/1;display:grid;place-items:center;font-size:64px;background:var(--tint)}
+.thumb{aspect-ratio:1/1;display:grid;place-items:center;font-size:64px;background:var(--tint);position:relative;overflow:hidden}
+.thumb img,.em img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#f4eef1}
 .prod[data-cat="عطور"] .thumb{background:#ecdff7}
 .prod[data-cat="مكياج"] .thumb{background:#fbdfe6}
 .prod[data-cat="العناية بالشعر"] .thumb{background:#e1efe4}
@@ -84,7 +85,7 @@ footer button{background:none;border:0;color:var(--muted);text-decoration:underl
 .sheet-h h3{margin:0;font-family:var(--f-display);font-size:24px}
 .x{background:var(--tint);color:var(--ink);border:0;border-radius:50%;width:34px;height:34px;font-size:16px}
 .row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
-.row .em{font-size:30px}.row .t{flex:1;min-width:0}.row .t small{display:block;color:var(--muted)}
+.row .em{font-size:28px;position:relative;width:52px;height:52px;border-radius:12px;overflow:hidden;display:grid;place-items:center;background:var(--tint);flex:none}.row .t{flex:1;min-width:0}.row .t small{display:block;color:var(--muted)}
 .qty{display:flex;align-items:center;gap:8px}
 .qty button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 .total{display:flex;justify-content:space-between;font-weight:700;font-size:18px;padding:12px 0}
@@ -159,6 +160,11 @@ input,select,textarea{width:100%;padding:11px;border-radius:10px;border:1px soli
 <div class="overlay" id="coOv"><div class="sheet" role="dialog" aria-modal="true" aria-label="تأكيد الطلب">
   <div class="sheet-h"><h3>تأكيد الطلب</h3><button class="x" data-close aria-label="إغلاق">✕</button></div>
   <div class="sum" id="coSum"></div>
+  <label for="cname">الاسم الكامل</label>
+  <input id="cname" autocomplete="name" placeholder="الاسم واللقب">
+  <div class="err" id="eName">اكتب الاسم الكامل.</div>
+  <label for="carrier">شركة التوصيل</label>
+  <select id="carrier"></select>
   <label for="phone">رقم الهاتف</label>
   <input id="phone" inputmode="tel" autocomplete="tel" placeholder="06XXXXXXXX" dir="ltr" style="text-align:right">
   <div class="err" id="ePhone">رقم غير صحيح: يبدأ بـ 05 أو 06 أو 07 ومن 10 أرقام.</div>
@@ -182,6 +188,7 @@ input,select,textarea{width:100%;padding:11px;border-radius:10px;border:1px soli
   <div id="qr"></div>
   <p style="font-size:14px;color:var(--muted);margin:4px 0 10px">امسح الرمز من هاتف آخر لفتح واتساب برسالة الطلب، أو اضغط الزر لإرسالها الآن.</p>
   <a class="btn wa block" id="sendWa" target="_blank" rel="noopener">إرسال الطلب عبر واتساب</a>
+  <button class="btn main block" id="shareQr" style="margin-top:8px">إرسال صورة QR إلى واتساب</button>
   <button class="btn ghost block" id="dlQr" style="margin-top:8px">تحميل صورة QR</button>
 </div></div>
 
@@ -227,6 +234,13 @@ const PRODUCTS = [
 
 const WILAYAS = ["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إيليزي","برج بوعريريج","بومرداس","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تموشنت","غرداية","غليزان","تيميمون","برج باجي مختار","أولاد جلال","بني عباس","عين صالح","عين قزام","توقرت","جانت","المغير","المنيعة"];
 
+const CARRIERS = ["Yalidine","ZR Express","Maystro","Ecotrack"];   // شركات التوصيل التي يختارها الزبون
+
+/* صور المنتوجات: ضع الصورة في مجلد images باسم رقم المنتوج (1.jpg، 2.jpg ...) أو حدّد المسار في الحقل img.
+   إذا لم توجد الصورة يظهر الرمز التعبيري مؤقتًا. */
+const imgTag = p => `<img src="${esc(p.img || "images/" + p.id + ".jpg")}" alt="${esc(p.name)}" loading="lazy" decoding="async">`;
+document.addEventListener("error", e => { if(e.target.tagName === "IMG" && e.target.closest(".thumb,.em")) e.target.remove(); }, true);
+
 /* ============ أدوات ============ */
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -263,7 +277,7 @@ function renderGrid(){
   const list = PRODUCTS.filter(p => activeCat==="الكل" || p.cat===activeCat);
   $("grid").innerHTML = list.map(p => `
     <article class="prod" data-cat="${esc(p.cat)}">
-      <div class="thumb" aria-hidden="true">${p.emoji}</div>
+      <div class="thumb"><span aria-hidden="true">${p.emoji}</span>${imgTag(p)}</div>
       <div class="pb"><b>${esc(p.name)}</b><small>${esc(p.cat)}</small>
         <div class="price">${money(p.price)}</div>
         <button class="add" data-add="${p.id}">أضف للسلة</button></div>
@@ -288,7 +302,7 @@ function renderCart(){
   $("toCheckout").disabled = !items.length;
   $("toCheckout").style.opacity = items.length ? 1 : .5;
   $("cartList").innerHTML = items.length ? items.map(({p,q}) => `
-    <div class="row"><div class="em">${p.emoji}</div>
+    <div class="row"><div class="em"><span aria-hidden="true">${p.emoji}</span>${imgTag(p)}</div>
       <div class="t"><b>${esc(p.name)}</b><small>${money(p.price)}</small></div>
       <div class="qty"><button data-d="-1" data-id="${p.id}" aria-label="إنقاص">−</button><b>${q}</b><button data-d="1" data-id="${p.id}" aria-label="زيادة">+</button></div>
     </div>`).join("") : `<div class="empty">السلة فارغة. أضف منتوجًا من القائمة.</div>`;
@@ -319,8 +333,9 @@ function newOrderId(){
 function buildMessage(o, compact){
   const L = [`🛍️ طلبية جديدة ${o.id}`];
   o.items.forEach(i => L.push(`• ${i.name} × ${i.q} = ${i.p*i.q} دج`));
-  L.push(`💰 المجموع: ${o.total} دج`, `📞 ${o.phone}`, `📍 ${o.wilaya} - ${o.addr}`);
+  L.push(`💰 المجموع: ${o.total} دج`, `👤 ${o.name}`, `📞 ${o.phone}`, `📍 ${o.wilaya} - ${o.addr}`);
   if(o.note && !compact) L.push(`📝 ${o.note}`);
+  if(o.carrier) L.push(`🚚 ${o.carrier}`);
   L.push("💳 الدفع عند الاستلام");
   return L.join("\n");
 }
@@ -341,12 +356,12 @@ function makeQR(o){
 }
 $("confirm").onclick = () => {
   const phone = $("phone").value.replace(/[\s.\-]/g,"");
-  const w = $("wilaya").value, addr = $("addr").value.trim();
-  const ok = [PHONE_RE.test(phone), !!w, addr.length>=3];
-  $("ePhone").classList.toggle("on", !ok[0]); $("eWilaya").classList.toggle("on", !ok[1]); $("eAddr").classList.toggle("on", !ok[2]);
+  const w = $("wilaya").value, addr = $("addr").value.trim(), cname = $("cname").value.trim();
+  const ok = [PHONE_RE.test(phone), !!w, addr.length>=3, cname.length>=3];
+  $("ePhone").classList.toggle("on", !ok[0]); $("eWilaya").classList.toggle("on", !ok[1]); $("eAddr").classList.toggle("on", !ok[2]); $("eName").classList.toggle("on", !ok[3]);
   if(!ok.every(Boolean)) return;
   const items = cartItems().map(({p,q}) => ({name:p.name, p:p.price, q}));
-  const order = {id:newOrderId(), items, total:cartTotal(), phone, wilaya:w.replace(/^\d+\s-\s/,""), addr, note:$("note").value.trim(), at:Date.now()};
+  const order = {id:newOrderId(), items, total:cartTotal(), name:cname, carrier:$("carrier").value, status:"جديدة", phone, wilaya:w.replace(/^\d+\s-\s/,""), addr, note:$("note").value.trim(), at:Date.now()};
   const hist = store.get("abdo_orders", []); hist.unshift(order); store.set("abdo_orders", hist.slice(0,50));
   $("oid").textContent = order.id;
   if(typeof QRCode === "undefined"){ $("qr").textContent="تعذّر تحميل مكتبة QR، استعمل زر واتساب."; currentLink = waBase()+"?text="+encodeURIComponent(buildMessage(order,false)); }
@@ -354,11 +369,39 @@ $("confirm").onclick = () => {
   $("sendWa").href = currentLink;
   cart = {}; store.set("abdo_cart", cart); renderCart();
   close(); open("qrOv");
+  window.open(currentLink, "_blank");   // يفتح واتساب تلقائيًا برسالة الطلب بعد التأكيد
 };
 $("dlQr").onclick = () => {
   const c = document.querySelector("#qr canvas"), im = document.querySelector("#qr img");
   const src = c ? c.toDataURL("image/png") : (im && im.src); if(!src) return;
   const a = document.createElement("a"); a.href = src; a.download = $("oid").textContent + ".png"; a.click();
+};
+
+/* ===== إرسال صورة QR إلى واتساب ===== */
+function qrBlob(){
+  return new Promise(res => {
+    const c = document.querySelector("#qr canvas"), im = document.querySelector("#qr img");
+    const src = c || im; if(!src) return res(null);
+    const W = 300, pad = 30, out = document.createElement("canvas");
+    out.width = out.height = W + pad*2;
+    const g = out.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0,0,out.width,out.height);
+    const draw = () => { g.imageSmoothingEnabled = false; g.drawImage(src, pad, pad, W, W); out.toBlob(res, "image/png"); };
+    if(c || (im && im.complete)) draw(); else im.onload = draw;
+  });
+}
+$("shareQr").onclick = async () => {
+  const id = $("oid").textContent;
+  const blob = await qrBlob(); if(!blob){ toast("تعذّر تجهيز الصورة"); return; }
+  const file = new File([blob], id + ".png", {type:"image/png"});
+  const text = "رمز QR للطلبية " + id;
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file], text}); return; }
+    catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  // بديل: تحميل الصورة ثم فتح واتساب لإرفاقها
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = id + ".png"; a.click();
+  toast("تم تحميل الصورة، أرفقها في محادثة واتساب");
+  setTimeout(() => window.open(waBase() + "?text=" + encodeURIComponent(text), "_blank"), 900);
 };
 
 /* ============ الإعدادات (واجهة) ============ */
@@ -376,6 +419,7 @@ $("resetSet").onclick = () => { cfg = Object.assign({}, DEFAULTS); store.set("ab
 
 /* ============ تشغيل ============ */
 $("yr").textContent = new Date().getFullYear();
+$("carrier").innerHTML = CARRIERS.map(c => `<option>${esc(c)}</option>`).join("");
 applyCfg(); renderChips(); renderGrid(); renderCart();
 </script>
 </body>
